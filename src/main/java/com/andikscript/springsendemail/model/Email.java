@@ -1,11 +1,12 @@
 package com.andikscript.springsendemail.model;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Email {
 
-    @NotBlank
-    private String received;
+    @NotNull
+    private String[] received;
 
     @NotBlank
     private String message;
@@ -13,11 +14,14 @@ public class Email {
     @NotBlank
     private String subject;
 
-    public String getReceived() {
+    // jika menggunakan array maka validation menggunakan @NotNull
+    // jika biasa menggunakan @NotBlank
+
+    public String[] getReceived() {
         return received;
     }
 
-    public void setReceived(String received) {
+    public void setReceived(String[] received) {
         this.received = received;
     }
 
