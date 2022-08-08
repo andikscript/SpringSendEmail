@@ -1,11 +1,16 @@
 package com.andikscript.springsendemail.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class Email {
 
+    @NotBlank
     private String received;
 
+    @NotBlank
     private String message;
 
+    @NotBlank
     private String subject;
 
     public String getReceived() {
