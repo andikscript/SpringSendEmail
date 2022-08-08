@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/api/email")
 public class EmailController {
@@ -21,7 +23,7 @@ public class EmailController {
     }
 
     @PostMapping(value = "/sendMail")
-    public ResponseEntity<?> sendEmail(@RequestBody  Email email) throws Exception {
+    public ResponseEntity<?> sendEmail(@Valid @RequestBody  Email email) throws Exception {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ResponseMessage(emailService.sendEmail(email)));
