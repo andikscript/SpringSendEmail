@@ -4,5 +4,5 @@ import com.andikscript.springsendemail.model.Email;
 
 public interface EmailService {
 
-    String sendEmail(Email email);
+    String sendEmail(Email email) throws Exception;
 }

@@ -19,7 +19,7 @@ public class EmailImpl implements EmailService {
     }
 
     @Override
-    public String sendEmail(Email email) {
+    public String sendEmail(Email email) throws Exception {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(sender);
@@ -30,7 +30,7 @@ public class EmailImpl implements EmailService {
             javaMailSender.send(mailMessage);
             return "Mail sent success";
         } catch (Exception e) {
-            return "Error";
+            throw new Exception();
         }
     }
 }
