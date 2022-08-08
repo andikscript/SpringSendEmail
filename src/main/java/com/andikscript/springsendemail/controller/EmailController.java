@@ -2,6 +2,7 @@ package com.andikscript.springsendemail.controller;
 
 import com.andikscript.springsendemail.message.ResponseMessage;
 import com.andikscript.springsendemail.model.Email;
+import com.andikscript.springsendemail.model.EmailAttach;
 import com.andikscript.springsendemail.service.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +28,12 @@ public class EmailController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ResponseMessage(emailService.sendEmail(email)));
+    }
+
+    @PostMapping(value = "/sendMailAttach")
+    public ResponseEntity<?> sendEmailAttach(@Valid @RequestBody EmailAttach email) throws Exception {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseMessage(emailService.sendEmailWithAttach(email)));
     }
 }
