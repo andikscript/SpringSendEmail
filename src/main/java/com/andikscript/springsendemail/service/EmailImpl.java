@@ -2,6 +2,7 @@ package com.andikscript.springsendemail.service;
 
 import com.andikscript.springsendemail.model.Email;
 import com.andikscript.springsendemail.model.EmailAttach;
+import com.github.sonus21.rqueue.annotation.RqueueListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -28,41 +29,32 @@ public class EmailImpl implements EmailService {
         this.javaMailSender = javaMailSender;
     }
 
+    @RqueueListener(value = "email-queue")
     @Override
-    public String sendEmail(Email email) throws Exception {
-        try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(email.getReceived());
-            mailMessage.setText(email.getMessage());
-            mailMessage.setSubject(email.getSubject());
-
-            javaMailSender.send(mailMessage);
-            return "Mail sent success";
-        } catch (Exception e) {
-            throw new Exception();
-        }
+    public void sendEmail(Email email) throws Exception {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(sender);
+        mailMessage.setTo(email.getReceived());
+        mailMessage.setText(email.getMessage());
+        mailMessage.setSubject(email.getSubject());
+        javaMailSender.send(mailMessage);
     }
 
+    @RqueueListener(value = "email-queue-attach")
     @Override
-    public String sendEmailWithAttach(EmailAttach email) throws Exception {
+    public void sendEmailWithAttach(EmailAttach email) throws Exception {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
 
-        try {
-            mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-            FileSystemResource fileSystemResource = new FileSystemResource(new File(email.getAttachment()));
+        mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+        FileSystemResource fileSystemResource = new FileSystemResource(new File(email.getAttachment()));
 
-            mimeMessageHelper.setFrom(sender);
-            mimeMessageHelper.setTo(email.getReceived());
-            mimeMessageHelper.setText(email.getMessage());
-            mimeMessageHelper.setSubject(email.getSubject());
-            mimeMessageHelper.addAttachment(fileSystemResource.getFilename(), fileSystemResource);
+        mimeMessageHelper.setFrom(sender);
+        mimeMessageHelper.setTo(email.getReceived());
+        mimeMessageHelper.setText(email.getMessage());
+        mimeMessageHelper.setSubject(email.getSubject());
+        mimeMessageHelper.addAttachment(fileSystemResource.getFilename(), fileSystemResource);
 
-            javaMailSender.send(mimeMessage);
-            return "Mail sent success";
-        } catch (Exception e) {
-            throw new Exception();
-        }
+        javaMailSender.send(mimeMessage);
     }
 }

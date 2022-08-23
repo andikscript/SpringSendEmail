@@ -5,7 +5,7 @@ import com.andikscript.springsendemail.model.EmailAttach;
 
 public interface EmailService {
 
-    String sendEmail(Email email) throws Exception;
+    void sendEmail(Email email) throws Exception;
 
-    String sendEmailWithAttach(EmailAttach email) throws Exception;
+    void sendEmailWithAttach(EmailAttach email) throws Exception;
 }
