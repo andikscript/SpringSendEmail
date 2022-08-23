@@ -1,5 +1,5 @@
 # Spring Send Email
-Simple send emails (gmail) via SMTP using the JavaMail Library on Spring Boot
+Simple send emails (gmail) via SMTP using the JavaMail Library on Spring Boot and use Rqueue with Redis for fast response when user request
 
 ## How to use
 ### Setting username 
